@@ -94,29 +94,25 @@ export default buildConfig({
   sharp,
 
   plugins: [
-    // Imágenes en Cloudflare R2 (S3 compatible). Solo se activa si hay credenciales.
-    ...(hasS3
-      ? [
-          s3Storage({
-            collections: {
-              media: {
-                // Las URLs públicas apuntan directo al bucket (CDN de R2).
-                generateFileURL: ({ filename, prefix }) =>
-                  [process.env.S3_PUBLIC_URL, prefix, filename].filter(Boolean).join('/'),
-              },
-            },
-            bucket: process.env.S3_BUCKET as string,
-            config: {
-              credentials: {
-                accessKeyId: process.env.S3_ACCESS_KEY_ID as string,
-                secretAccessKey: process.env.S3_SECRET_ACCESS_KEY as string,
-              },
-              region: process.env.S3_REGION || 'auto',
-              endpoint: process.env.S3_ENDPOINT,
-              forcePathStyle: true,
-            },
-          }),
-        ]
-      : []),
+    // Almacenamiento Cloudflare R2 (S3 compatible): se activa si hay credenciales (producción), o guarda en disco si enabled: false (local).
+    s3Storage({
+      enabled: hasS3,
+      collections: {
+        media: {
+          generateFileURL: ({ filename, prefix }) =>
+            [process.env.S3_PUBLIC_URL, prefix, filename].filter(Boolean).join('/'),
+        },
+      },
+      bucket: process.env.S3_BUCKET || 'placeholder-bucket',
+      config: {
+        credentials: {
+          accessKeyId: process.env.S3_ACCESS_KEY_ID || 'placeholder-key',
+          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || 'placeholder-secret',
+        },
+        region: process.env.S3_REGION || 'auto',
+        endpoint: process.env.S3_ENDPOINT || 'https://auto.r2.cloudflarestorage.com',
+        forcePathStyle: true,
+      },
+    }),
   ],
 })
