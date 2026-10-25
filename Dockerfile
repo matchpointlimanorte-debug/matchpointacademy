@@ -22,6 +22,7 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=3000
+ENV PAYLOAD_DB_PUSH=true
 
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/.npmrc ./

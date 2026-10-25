@@ -128,6 +128,7 @@ En la pestaña **Variables** del servicio de Next.js, añade:
 | `EMAIL_FROM_NAME` | `Match Point Lima Norte` |
 | `SEED_ADMIN_EMAIL` | `adriansalazar2497@gmail.com` |
 | `SEED_ADMIN_PASSWORD`| *(tu contraseña segura inicial)* |
+| `PAYLOAD_DB_PUSH` | `true` *(sincroniza y crea automáticamente las tablas en la BD)* |
 
 #### Almacenamiento Cloudflare R2 (recomendado para producción):
 Crea un bucket en Cloudflare R2 y agrega:
