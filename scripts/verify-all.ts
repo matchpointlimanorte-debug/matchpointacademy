@@ -120,6 +120,14 @@ async function run() {
     const fabWhatsApp = await page.$('a[data-label="flotante"]')
     assert('WhatsApp', 'Botón flotante de WhatsApp presente con accesibilidad', Boolean(fabWhatsApp))
 
+    // Desplazamiento para asegurar carga de imágenes y restablecer la vista al inicio
+    await page.evaluate(async () => {
+      window.scrollTo(0, document.body.scrollHeight)
+      await new Promise((r) => setTimeout(r, 600))
+      window.scrollTo(0, 0)
+    })
+    await page.waitForTimeout(500)
+
     // Captura screenshot desktop
     const desktopScreenshotPath = path.join(ARTIFACTS_DIR, 'screenshot_landing_desktop.png')
     await page.screenshot({ path: desktopScreenshotPath, fullPage: true })

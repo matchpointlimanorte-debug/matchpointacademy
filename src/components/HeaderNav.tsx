@@ -58,7 +58,7 @@ export function HeaderNav({
             rel="noopener noreferrer"
             data-event="whatsapp_click"
             data-label="header"
-            className="btn btn-primary hidden !min-h-11 !px-5 !py-2 text-sm sm:inline-flex"
+            className="btn btn-primary hidden !min-h-11 !px-5 !py-2 text-sm sm:inline-flex whitespace-nowrap shrink-0 shadow-md"
           >
             <IconWhatsApp width={18} height={18} />
             {ctaTexto}

@@ -95,9 +95,9 @@ async function seed() {
     data: {
       nombreSitio: 'Match Point Lima Norte',
       heroEtiqueta: 'Academia de Tenis & Torneos',
-      heroTitular: 'Impulsa tu tenis en [[Lima Norte]]',
+      heroTitular: 'Match Point [[Lima Norte]]',
       heroSubtitulo:
-        'Academia comprometida con el aprendizaje y la competencia. Formamos jugadores con talento, disciplina y pasión, sin importar tu nivel inicial.',
+        'Academia de tenis comprometida con el aprendizaje y la competencia. Clases para todos los niveles: principiantes e intermedios en canchas de tenis de Fuertes Hoyos, Rímac.',
       heroCtaTexto: 'Reserva tu clase de prueba',
       heroImagen: mediaMap.grupo || undefined,
       quienesTitulo: 'Quiénes somos',

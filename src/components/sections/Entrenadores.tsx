@@ -26,15 +26,13 @@ export function Entrenadores({ entrenadores, cfg }: { entrenadores: Entrenador[]
           return (
             <article key={e.id} className="card card-hover w-[17rem] overflow-hidden sm:w-[19rem]">
               <div className="relative aspect-[4/5] bg-brand-soft">
-                {foto && (
-                  <Image
-                    src={urlMedio(foto, 'card') || ''}
-                    alt={foto.alt || e.nombre}
-                    fill
-                    sizes="304px"
-                    className="object-cover"
-                  />
-                )}
+                <Image
+                  src={(foto && urlMedio(foto, 'card')) || '/images/galeria-2.jpg'}
+                  alt={foto?.alt || e.nombre}
+                  fill
+                  sizes="304px"
+                  className="object-cover"
+                />
               </div>
               <div className="p-5">
                 <h3 className="text-xl font-extrabold">{e.nombre}</h3>

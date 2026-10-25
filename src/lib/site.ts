@@ -11,6 +11,15 @@ export function medio(value: unknown): Medio | null {
 /** URL de la variante de tamaño pedida (o la original). */
 export function urlMedio(m: Medio | null, tamano?: 'thumb' | 'card' | 'hero'): string | null {
   if (!m) return null
+  // Si es un archivo remoto en S3 / Cloudflare R2, usar la variante remota o la URL original
+  if (m.url && m.url.startsWith('http') && !m.url.includes('localhost:3000')) {
+    const variante = tamano ? m.sizes?.[tamano]?.url : null
+    return variante || m.url
+  }
+  // Si tiene nombre de archivo, servimos directamente desde /images/ para máxima velocidad y evitar errores de variantes
+  if (m.filename) {
+    return `/images/${m.filename}`
+  }
   const variante = tamano ? m.sizes?.[tamano]?.url : null
   return variante || m.url || null
 }

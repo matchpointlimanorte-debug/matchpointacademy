@@ -7,18 +7,11 @@ const __filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(__filename)
 
 /** Host del bucket público de R2 (si está configurado) para permitir next/image. */
-const remotePatterns: NonNullable<NextConfig['images']>['remotePatterns'] = []
-if (process.env.S3_PUBLIC_URL) {
-  try {
-    const u = new URL(process.env.S3_PUBLIC_URL)
-    remotePatterns.push({
-      protocol: u.protocol.replace(':', '') as 'http' | 'https',
-      hostname: u.hostname,
-    })
-  } catch {
-    // URL inválida: se ignora, las imágenes remotas no se optimizarán.
-  }
-}
+const remotePatterns: NonNullable<NextConfig['images']>['remotePatterns'] = [
+  { protocol: 'http', hostname: 'localhost' },
+  { protocol: 'http', hostname: '127.0.0.1' },
+  { protocol: 'https', hostname: '**' },
+]
 
 const nextConfig: NextConfig = {
   images: {

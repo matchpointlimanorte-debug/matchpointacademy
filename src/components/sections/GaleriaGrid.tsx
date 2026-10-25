@@ -35,7 +35,7 @@ export function GaleriaGrid({ fotos }: { fotos: FotoItem[] }) {
                 width={f.w}
                 height={f.h}
                 sizes="(min-width: 768px) 360px, 50vw"
-                loading={i < 2 ? 'eager' : 'lazy'}
+                loading="eager"
                 className="h-auto w-full transition-transform duration-500 group-hover:scale-105"
               />
               <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-brand/85 to-transparent p-3 text-left text-sm font-semibold text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">

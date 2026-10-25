@@ -37,8 +37,8 @@ export type SiteData = {
 
 const AJUSTES_RESPALDO = {
   nombreSitio: 'Match Point Lima Norte',
-  heroTitular: 'Aprende tenis en Lima Norte',
-  heroSubtitulo: 'Clases para todos los niveles. Reserva tu clase de prueba.',
+  heroTitular: 'Match Point [[Lima Norte]]',
+  heroSubtitulo: 'Clases para todos los niveles: principiantes e intermedios. Reserva tu clase de prueba.',
   heroCtaTexto: 'Reserva tu clase de prueba',
   quienesTexto: '',
   whatsappNumero: '51916727470',

@@ -9,17 +9,22 @@ import type { Ajustes } from '@/lib/types'
 export function Quienes({ ajustes, cfg }: { ajustes: Ajustes; cfg: SeccionConfig }) {
   const imagen = medio(ajustes.quienesImagen)
   const puntos = ajustes.puntosClave || []
+  const fotoSrc = (imagen && urlMedio(imagen, 'card')) || '/images/grupo-clase.jpg'
+  const textoQuienes =
+    ajustes.quienesTexto ||
+    'Somos una academia de tenis comprometida con impulsar el aprendizaje y la práctica competitiva en Lima Norte. Nuestro objetivo es formar a futuros jugadores, brindándoles un espacio donde puedan desarrollar su talento, disciplina y pasión por este deporte sin importar su nivel inicial.\n\nContamos con entrenadores dedicados, un ambiente formativo y canchas de tenis en Fuertes Hoyos, Rímac.'
+
   return (
     <Section
       id="quienes"
       tone="sand"
       eyebrow="Nosotros"
-      titulo={cfg.titulo || ajustes.quienesTitulo || 'Quiénes somos'}
-      subtitulo={cfg.subtitulo}
+      titulo={cfg.titulo || ajustes.quienesTitulo || 'Sobre Match Point Lima Norte'}
+      subtitulo={cfg.subtitulo || 'Conoce nuestra propuesta formativa y competitiva en Lima Norte'}
     >
-      <div className={`grid items-center gap-10 ${imagen ? 'md:grid-cols-2 md:gap-14' : ''}`}>
+      <div className="grid items-center gap-10 md:grid-cols-2 md:gap-14">
         <div className="reveal space-y-5 text-lg text-ink/80">
-          {parrafos(ajustes.quienesTexto).map((p, i) => (
+          {parrafos(textoQuienes).map((p, i) => (
             <p key={i}>{p}</p>
           ))}
           {puntos.length > 0 && (
@@ -36,18 +41,16 @@ export function Quienes({ ajustes, cfg }: { ajustes: Ajustes; cfg: SeccionConfig
             </ul>
           )}
         </div>
-        {imagen && (
-          <div className="reveal relative aspect-[4/3] overflow-hidden rounded-[2rem] shadow-2xl ring-8 ring-white">
-            <Image
-              src={urlMedio(imagen, 'card') || ''}
-              alt={imagen.alt}
-              fill
-              sizes="(min-width: 768px) 560px, 100vw"
-              className="object-cover"
-            />
-            <div aria-hidden="true" className="absolute bottom-0 left-0 h-2 w-full bg-accent" />
-          </div>
-        )}
+        <div className="reveal relative aspect-[4/3] overflow-hidden rounded-[2rem] shadow-2xl ring-8 ring-white">
+          <Image
+            src={fotoSrc}
+            alt={imagen?.alt || 'Alumnos y entrenadores de Match Point Lima Norte'}
+            fill
+            sizes="(min-width: 768px) 560px, 100vw"
+            className="object-cover"
+          />
+          <div aria-hidden="true" className="absolute bottom-0 left-0 h-2 w-full bg-accent" />
+        </div>
       </div>
     </Section>
   )
