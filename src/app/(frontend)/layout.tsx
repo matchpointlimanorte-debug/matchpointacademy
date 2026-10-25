@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from 'next'
 import { Inter, Outfit } from 'next/font/google'
 import React from 'react'
 
+export const dynamic = 'force-dynamic'
+
 import { Analytics } from '@/components/Analytics'
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'

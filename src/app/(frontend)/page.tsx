@@ -1,5 +1,7 @@
 import React from 'react'
 
+export const dynamic = 'force-dynamic'
+
 import { Entrenadores } from '@/components/sections/Entrenadores'
 import { Faq } from '@/components/sections/Faq'
 import { Galeria } from '@/components/sections/Galeria'

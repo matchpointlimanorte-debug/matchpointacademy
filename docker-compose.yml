@@ -34,9 +34,12 @@ services:
       CONTACT_EMAIL_TO: adriansalazar2497@gmail.com
       SEED_ADMIN_EMAIL: adriansalazar2497@gmail.com
       SEED_ADMIN_PASSWORD: MatchPoint2026!
+    volumes:
+      - media_data:/app/media
     depends_on:
       db:
         condition: service_healthy
 
 volumes:
   pgdata:
+  media_data:

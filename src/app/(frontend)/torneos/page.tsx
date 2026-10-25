@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
+export const dynamic = 'force-dynamic'
+
 import { separarTorneos } from '@/components/sections/Torneos'
 import { TorneoCard } from '@/components/sections/TorneoCard'
 import { IconArrow, IconTrophy } from '@/components/ui/Icons'

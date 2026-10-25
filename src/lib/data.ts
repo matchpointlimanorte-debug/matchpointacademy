@@ -35,7 +35,6 @@ export type SiteData = {
   faq: Pregunta[]
 }
 
-/** Valores de respaldo para que la web nunca se rompa si la base de datos está vacía. */
 const AJUSTES_RESPALDO = {
   nombreSitio: 'Match Point Lima Norte',
   heroTitular: 'Aprende tenis en Lima Norte',
@@ -44,6 +43,7 @@ const AJUSTES_RESPALDO = {
   quienesTexto: '',
   whatsappNumero: '51916727470',
   direccion: 'Fuertes Hoyos, Rímac, Lima, Perú',
+  formularioActivo: true,
 } as unknown as Ajustes
 
 /** Consulta todo el contenido público. Se usa con caché (visitantes) o sin caché (vista previa). */
@@ -103,7 +103,7 @@ async function fetchSiteData(draft: boolean): Promise<SiteData> {
  */
 const getCachedSiteData = unstable_cache(() => fetchSiteData(false), ['site-data'], {
   tags: [SITE_CACHE_TAG],
-  revalidate: 3600,
+  revalidate: 10,
 })
 
 /** Punto de entrada: respeta el modo vista previa (borradores) del admin. */

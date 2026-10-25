@@ -4,6 +4,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
+export const dynamic = 'force-dynamic'
+
 import { IconArrow, IconCalendar, IconPin, IconTrophy, IconWhatsApp } from '@/components/ui/Icons'
 import { RichText } from '@/components/ui/RichText'
 import { getPayloadClient } from '@/lib/payload'

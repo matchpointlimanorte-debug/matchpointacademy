@@ -63,6 +63,12 @@ async function seed() {
 
     if (existing.totalDocs > 0) {
       mediaMap[item.key] = Number(existing.docs[0].id)
+      const mediaDir = path.join(process.cwd(), 'media')
+      if (!fs.existsSync(mediaDir)) fs.mkdirSync(mediaDir, { recursive: true })
+      const diskPath = path.join(mediaDir, item.filename)
+      if (!fs.existsSync(diskPath) && fs.existsSync(filePath)) {
+        fs.copyFileSync(filePath, diskPath)
+      }
     } else {
       console.log(`🖼️ Subiendo archivo: ${item.filename}`)
       const buffer = fs.readFileSync(filePath)
