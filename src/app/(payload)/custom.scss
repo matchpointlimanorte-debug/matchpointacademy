@@ -1,0 +1,21 @@
+/* Ajustes visuales del panel de administración. */
+
+:root {
+  --mp-navy: #12315a;
+  --mp-lime: #d6e01f;
+}
+
+/* Botones primarios con los colores de la marca. */
+.btn--style-primary {
+  --bg-color: var(--mp-navy);
+  --color: #fff;
+  --hover-bg: #0b2243;
+}
+
+/* En "Orden y visibilidad de secciones" no se agregan ni borran filas: solo se reordenan. */
+#field-secciones .array-field__add-row,
+#field-secciones .array-actions__action.array-actions__add,
+#field-secciones .array-actions__action.array-actions__remove,
+#field-secciones .array-actions__action.array-actions__duplicate {
+  display: none !important;
+}
