@@ -41,14 +41,18 @@ async function getTorneo(slug: string, draft: boolean): Promise<{ torneo: Torneo
 }
 
 export async function generateStaticParams() {
-  const payload = await getPayloadClient()
-  const { docs } = await payload.find({
-    collection: 'torneos',
-    where: { _status: { equals: 'published' } },
-    limit: 100,
-    pagination: false,
-  })
-  return docs.map((t) => ({ slug: t.slug }))
+  try {
+    const payload = await getPayloadClient()
+    const { docs } = await payload.find({
+      collection: 'torneos',
+      where: { _status: { equals: 'published' } },
+      limit: 100,
+      pagination: false,
+    })
+    return docs.map((t) => ({ slug: t.slug }))
+  } catch {
+    return []
+  }
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

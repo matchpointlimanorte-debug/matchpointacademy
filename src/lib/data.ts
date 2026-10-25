@@ -48,37 +48,52 @@ const AJUSTES_RESPALDO = {
 
 /** Consulta todo el contenido público. Se usa con caché (visitantes) o sin caché (vista previa). */
 async function fetchSiteData(draft: boolean): Promise<SiteData> {
-  const payload = await getPayloadClient()
-  const common = { draft, depth: 1, limit: 100, pagination: false } as const
-  // En vista previa Payload devuelve la versión más reciente (borrador).
-  const [ajustes, landing, niveles, entrenadores, galeria, torneos, testimonios, planes, faq] =
-    await Promise.all([
-      payload.findGlobal({ slug: 'configuracion', draft, depth: 2 }),
-      payload.findGlobal({ slug: 'landing', draft, depth: 0 }),
-      payload.find({ collection: 'niveles', sort: '_order', ...common }),
-      payload.find({ collection: 'entrenadores', sort: '_order', ...common }),
-      payload.find({ collection: 'galeria', sort: '_order', ...common }),
-      payload.find({ collection: 'torneos', sort: 'fechaInicio', ...common }),
-      payload.find({ collection: 'testimonios', sort: '_order', ...common }),
-      payload.find({ collection: 'planes', sort: '_order', ...common }),
-      payload.find({ collection: 'faq', sort: '_order', ...common }),
-    ])
+  try {
+    const payload = await getPayloadClient()
+    const common = { draft, depth: 1, limit: 100, pagination: false } as const
+    // En vista previa Payload devuelve la versión más reciente (borrador).
+    const [ajustes, landing, niveles, entrenadores, galeria, torneos, testimonios, planes, faq] =
+      await Promise.all([
+        payload.findGlobal({ slug: 'configuracion', draft, depth: 2 }),
+        payload.findGlobal({ slug: 'landing', draft, depth: 0 }),
+        payload.find({ collection: 'niveles', sort: '_order', ...common }),
+        payload.find({ collection: 'entrenadores', sort: '_order', ...common }),
+        payload.find({ collection: 'galeria', sort: '_order', ...common }),
+        payload.find({ collection: 'torneos', sort: 'fechaInicio', ...common }),
+        payload.find({ collection: 'testimonios', sort: '_order', ...common }),
+        payload.find({ collection: 'planes', sort: '_order', ...common }),
+        payload.find({ collection: 'faq', sort: '_order', ...common }),
+      ])
 
-  const secciones =
-    landing?.secciones && landing.secciones.length > 0
-      ? (landing.secciones as SeccionConfig[])
-      : (SECCIONES_POR_DEFECTO as unknown as SeccionConfig[])
+    const secciones =
+      landing?.secciones && landing.secciones.length > 0
+        ? (landing.secciones as SeccionConfig[])
+        : (SECCIONES_POR_DEFECTO as unknown as SeccionConfig[])
 
-  return {
-    ajustes: ajustes && ajustes.heroTitular ? ajustes : { ...AJUSTES_RESPALDO, ...ajustes },
-    secciones,
-    niveles: niveles.docs as Nivel[],
-    entrenadores: entrenadores.docs as Entrenador[],
-    galeria: galeria.docs as FotoGaleria[],
-    torneos: torneos.docs as Torneo[],
-    testimonios: testimonios.docs as Testimonio[],
-    planes: planes.docs as Plan[],
-    faq: faq.docs as Pregunta[],
+    return {
+      ajustes: ajustes && ajustes.heroTitular ? ajustes : { ...AJUSTES_RESPALDO, ...ajustes },
+      secciones,
+      niveles: niveles.docs as Nivel[],
+      entrenadores: entrenadores.docs as Entrenador[],
+      galeria: galeria.docs as FotoGaleria[],
+      torneos: torneos.docs as Torneo[],
+      testimonios: testimonios.docs as Testimonio[],
+      planes: planes.docs as Plan[],
+      faq: faq.docs as Pregunta[],
+    }
+  } catch (err) {
+    console.warn('Aviso: base de datos no disponible durante la compilación, usando datos de respaldo:', err)
+    return {
+      ajustes: AJUSTES_RESPALDO,
+      secciones: SECCIONES_POR_DEFECTO as unknown as SeccionConfig[],
+      niveles: [],
+      entrenadores: [],
+      galeria: [],
+      torneos: [],
+      testimonios: [],
+      planes: [],
+      faq: [],
+    }
   }
 }
 

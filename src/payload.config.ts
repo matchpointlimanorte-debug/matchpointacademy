@@ -72,8 +72,8 @@ export default buildConfig({
 
   db: postgresAdapter({
     pool: { connectionString: process.env.DATABASE_URL || '' },
-    // En desarrollo Payload sincroniza el esquema solo. En producción se usan migraciones (src/migrations).
-    push: !isProd,
+    // En desarrollo o contenedor local (PAYLOAD_DB_PUSH=true) Payload sincroniza el esquema solo.
+    push: process.env.PAYLOAD_DB_PUSH === 'true' || !isProd,
     migrationDir: path.resolve(dirname, 'migrations'),
   }),
 

@@ -1,16 +1,42 @@
 services:
-  # PostgreSQL local para desarrollo: `docker compose up -d`
   db:
     image: postgres:16-alpine
+    container_name: matchpoint_db
     restart: unless-stopped
     environment:
       POSTGRES_USER: matchpoint
       POSTGRES_PASSWORD: matchpoint
       POSTGRES_DB: matchpoint
     ports:
-      - '5432:5432'
+      - '5433:5432'
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U matchpoint']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: matchpoint_web
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    environment:
+      NODE_ENV: production
+      PAYLOAD_DB_PUSH: "true"
+      DATABASE_URL: postgresql://matchpoint:matchpoint@db:5432/matchpoint
+      PAYLOAD_SECRET: a1b2c3d4e5f67890123456789abcdef0123456789abcdef0123456789abcdef0
+      NEXT_PUBLIC_SITE_URL: http://localhost:3000
+      CONTACT_EMAIL_TO: adriansalazar2497@gmail.com
+      SEED_ADMIN_EMAIL: adriansalazar2497@gmail.com
+      SEED_ADMIN_PASSWORD: MatchPoint2026!
+    depends_on:
+      db:
+        condition: service_healthy
 
 volumes:
   pgdata:
