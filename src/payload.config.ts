@@ -35,6 +35,8 @@ const hasS3 = Boolean(
     process.env.S3_SECRET_ACCESS_KEY,
 )
 
+import { migrations } from './migrations'
+
 export default buildConfig({
   serverURL: siteUrl,
   // Orígenes permitidos para cookies/CSRF. Al conectar el dominio propio, solo cambia NEXT_PUBLIC_SITE_URL.
@@ -75,6 +77,7 @@ export default buildConfig({
     // Sincroniza automáticamente las tablas en Postgres (crea tablas e índices que no existan).
     push: process.env.PAYLOAD_DB_PUSH !== 'false',
     migrationDir: path.resolve(dirname, 'migrations'),
+    prodMigrations: migrations,
   }),
 
   // Correo: con RESEND_API_KEY se envía de verdad; sin ella, se imprime en consola.

@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -11,6 +12,30 @@ const __dirname = path.dirname(__filename)
 async function seed() {
   console.log('🎾 Iniciando seed de Match Point Lima Norte...')
   const payload = await getPayload({ config })
+
+  // En producción (Railway / Docker), asegurar que las tablas de PostgreSQL estén creadas
+  try {
+    if (typeof payload.db.migrate === 'function') {
+      const { migrations } = await import('../migrations')
+      console.log('📦 Verificando migraciones en PostgreSQL...')
+      await (payload.db as any).migrate({ migrations })
+      console.log('✅ Migraciones de esquema aplicadas.')
+    }
+  } catch (migErr: any) {
+    console.log('ℹ️ Verificación de migraciones:', migErr?.message || 'OK')
+  }
+
+  // Comprobación de resiliencia ante bases de datos nuevas
+  try {
+    await payload.find({ collection: 'users', limit: 1 })
+  } catch (err: any) {
+    if (err?.message?.includes('does not exist') || err?.cause?.message?.includes('does not exist')) {
+      console.log('⚠️ Tablas faltantes detectadas. Sincronizando esquema...')
+      const { pushDevSchema } = await import('@payloadcms/drizzle')
+      await pushDevSchema(payload.db as any)
+      console.log('✅ Esquema sincronizado.')
+    }
+  }
 
   // 1. Usuario Administrador (Director)
   const adminEmail = (process.env.SEED_ADMIN_EMAIL || 'adriansalazar2497@gmail.com').toLowerCase().trim()
