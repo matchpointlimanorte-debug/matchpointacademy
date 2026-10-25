@@ -1,7 +1,11 @@
 import type { Ajustes, Medio, Torneo } from './types'
 
 /** URL pública del sitio (sin "/" final). Cambia con NEXT_PUBLIC_SITE_URL al conectar el dominio. */
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000').replace(/\/$/, '')
+export const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.RAILWAY_PUBLIC_DOMAIN ? `https://${process.env.RAILWAY_PUBLIC_DOMAIN}` : '') ||
+  'http://localhost:3000'
+).replace(/\/$/, '')
 
 /** Devuelve el objeto Medio si la relación viene poblada (depth ≥ 1). */
 export function medio(value: unknown): Medio | null {

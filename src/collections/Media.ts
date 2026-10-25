@@ -25,6 +25,7 @@ export const Media: CollectionConfig = {
   },
   hooks: { afterChange: [revalidateAfterChange], afterDelete: [revalidateAfterDelete] },
   upload: {
+    staticDir: 'media',
     mimeTypes: ['image/*', 'video/mp4', 'video/webm'],
     adminThumbnail: 'thumb',
     focalPoint: true,

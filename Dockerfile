@@ -33,6 +33,8 @@ COPY --from=builder /app/src ./src
 COPY --from=builder /app/next.config.ts ./
 COPY --from=builder /app/tsconfig.json ./
 
+RUN mkdir -p /app/media
+
 EXPOSE 3000
 
 CMD ["sh", "-c", "npm run seed && npm run start"]

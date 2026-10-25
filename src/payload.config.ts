@@ -25,7 +25,58 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 const isProd = process.env.NODE_ENV === 'production'
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+
+/** Normaliza un origen eliminando barras finales y asegurando protocolo https:// si falta */
+const normalizeOrigin = (url?: string | null): string | null => {
+  if (!url) return null
+  let trimmed = url.trim().replace(/\/+$/, '')
+  if (!trimmed) return null
+  if (!trimmed.startsWith('http://') && !trimmed.startsWith('https://')) {
+    trimmed = `https://${trimmed}`
+  }
+  return trimmed
+}
+
+// Dominios detectados automáticamente del entorno de Railway o Vercel
+const railwayPublicDomain = process.env.RAILWAY_PUBLIC_DOMAIN
+const railwayStaticUrl = process.env.RAILWAY_STATIC_URL
+const autoDetectedOrigins = [
+  railwayPublicDomain ? `https://${railwayPublicDomain}` : null,
+  railwayStaticUrl ? `https://${railwayStaticUrl}` : null,
+  process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null,
+  process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : null,
+].filter(Boolean) as string[]
+
+const configuredSiteUrl = normalizeOrigin(process.env.NEXT_PUBLIC_SITE_URL)
+const siteUrl = configuredSiteUrl || autoDetectedOrigins[0] || (isProd ? '' : 'http://localhost:3000')
+
+const customOrigins = (process.env.PAYLOAD_TRUSTED_ORIGINS || '')
+  .split(',')
+  .map(normalizeOrigin)
+  .filter(Boolean) as string[]
+
+// Lista consolidada de orígenes confiables para CORS y CSRF
+const trustedOrigins: string[] = Array.from(
+  new Set(
+    [
+      siteUrl,
+      configuredSiteUrl,
+      ...autoDetectedOrigins,
+      'http://localhost:3000',
+      'http://127.0.0.1:3000',
+      ...customOrigins,
+    ].filter(Boolean) as string[],
+  ),
+)
+
+// Si se deshabilita explícitamente o si en producción no se ha configurado aún ningún dominio,
+// dejamos csrf en [] para que Payload acepte las cookies del navegador (protegidas por SameSite)
+const disableCsrf = process.env.PAYLOAD_DISABLE_CSRF === 'true'
+const csrfOrigins = disableCsrf || (!configuredSiteUrl && autoDetectedOrigins.length === 0)
+  ? []
+  : trustedOrigins
 
 /** ¿Hay un bucket S3/R2 configurado? Si no, las imágenes se guardan en disco (solo desarrollo). */
 const hasS3 = Boolean(
@@ -39,9 +90,9 @@ import { migrations } from './migrations'
 
 export default buildConfig({
   serverURL: siteUrl,
-  // Orígenes permitidos para cookies/CSRF. Al conectar el dominio propio, solo cambia NEXT_PUBLIC_SITE_URL.
-  cors: [siteUrl],
-  csrf: [siteUrl],
+  // Orígenes permitidos para cookies/CSRF y peticiones autenticadas
+  cors: trustedOrigins.length > 0 ? trustedOrigins : '*',
+  csrf: csrfOrigins,
 
   admin: {
     user: Users.slug,

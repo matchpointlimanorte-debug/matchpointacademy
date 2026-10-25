@@ -2,7 +2,10 @@ import type { CollectionConfig } from 'payload'
 
 import { isAdmin, isAdminField, isAdminUser } from '../access'
 
-const siteUrl = () => process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+const siteUrl = () =>
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.RAILWAY_PUBLIC_DOMAIN ? `https://${process.env.RAILWAY_PUBLIC_DOMAIN}` : '') ||
+  'http://localhost:3000'
 
 /**
  * Usuarios del panel. Roles:

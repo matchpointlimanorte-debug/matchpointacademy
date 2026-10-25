@@ -59,7 +59,18 @@ async function seed() {
       },
     })
   } else {
-    console.log(`ℹ️ Usuario ${adminEmail} ya existe.`)
+    const existing = existingUsers.docs[0]
+    if (existing && existing.rol !== 'admin') {
+      console.log(`🔄 Actualizando usuario ${adminEmail} a rol 'admin'...`)
+      await payload.update({
+        collection: 'users',
+        id: existing.id,
+        data: { rol: 'admin' },
+      })
+      console.log(`✅ Rol de ${adminEmail} actualizado a admin.`)
+    } else {
+      console.log(`ℹ️ Usuario ${adminEmail} ya existe con rol admin.`)
+    }
   }
 
   // 2. Subir Medios iniciales (si no existen ya)
