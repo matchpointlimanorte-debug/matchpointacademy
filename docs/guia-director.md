@@ -8,10 +8,10 @@ Bienvenido/a al manual de uso de tu nueva página web. Este documento está escr
 ## 1. Cómo ingresar al Panel de Administración
 
 1. Abre tu navegador (Google Chrome, Safari, etc.) e ingresa a:  
-   👉 **`https://tudominio.com/admin`** (o `http://localhost:3000/admin` en desarrollo).
+   👉 **`https://matchpointlimanorte.com/admin`** 
 2. Escribe tu correo y contraseña:
-   - **Usuario**: `adriansalazar2497@gmail.com`
-   - **Contraseña inicial**: `MatchPoint2026!`
+   - **Usuario**: [EMAIL_ADDRESS]`
+   - **Contraseña inicial**: `matchpoint$22`
 3. Haz clic en **"Iniciar sesión"**.
 
 > 💡 **Recomendación de seguridad**: Apenas ingreses por primera vez, ve a **Usuarios**, haz clic en tu nombre y cambia tu contraseña por una personal y segura.
