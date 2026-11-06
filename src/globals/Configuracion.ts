@@ -108,8 +108,22 @@ export const Configuracion: GlobalConfig = {
         {
           label: 'SEO y redes',
           fields: [
-            { name: 'seoTitulo', label: 'Título para Google', type: 'text', defaultValue: 'Match Point Lima Norte | Academia de Tenis en Lima', admin: { description: 'Idealmente menos de 60 caracteres.' } },
-            { name: 'seoDescripcion', label: 'Descripción para Google', type: 'textarea', maxLength: 170, admin: { description: 'Idealmente entre 120 y 160 caracteres.' } },
+            {
+              name: 'seoTitulo',
+              label: 'Título para Google',
+              type: 'text',
+              defaultValue: 'Match Point Lima Norte | Academia y Clases de Tenis en Lima Norte y Rímac',
+              admin: { description: 'Idealmente menos de 65 caracteres. Incluye palabras clave como "Academia de Tenis en Lima Norte".' },
+            },
+            {
+              name: 'seoDescripcion',
+              label: 'Descripción para Google',
+              type: 'textarea',
+              maxLength: 170,
+              defaultValue:
+                'Academia de tenis en Lima Norte (Fuertes Hoyos, Rímac). Clases para principiantes, intermedios y torneos en cancha de arcilla. ¡Reserva tu clase de prueba!',
+              admin: { description: 'Idealmente entre 120 y 160 caracteres.' },
+            },
             { name: 'ogImagen', label: 'Imagen al compartir en redes (1200×630)', type: 'upload', relationTo: 'media' },
           ],
         },

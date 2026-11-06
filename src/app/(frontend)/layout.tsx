@@ -41,11 +41,13 @@ export async function generateMetadata(): Promise<Metadata> {
   const ogImg = urlMedio(medio(ajustes.ogImagen) || medio(ajustes.heroImagen), 'hero')
   const ogUrl = ogImg ? (ogImg.startsWith('http') ? ogImg : `${SITE_URL}${ogImg}`) : `${SITE_URL}/og-default.jpg`
 
-  const titulo = ajustes.seoTitulo || `${ajustes.nombreSitio || 'Match Point Lima Norte'} | Academia de Tenis & Torneos`
+  const titulo =
+    ajustes.seoTitulo || `${ajustes.nombreSitio || 'Match Point Lima Norte'} | Academia y Clases de Tenis en Lima Norte y Rímac`
   const descripcion =
     ajustes.seoDescripcion ||
     ajustes.heroSubtitulo ||
-    'Academia de tenis en Lima Norte: clases para principiantes, intermedios y torneos. Reserva tu clase de prueba.'
+    'Academia de tenis en Lima Norte (Fuertes Hoyos, Rímac): clases para principiantes, intermedios y torneos en canchas de arcilla. Reserva tu clase de prueba.'
+  const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
 
   return {
     metadataBase: new URL(SITE_URL),
@@ -56,16 +58,44 @@ export async function generateMetadata(): Promise<Metadata> {
     description: descripcion,
     applicationName: ajustes.nombreSitio || 'Match Point Lima Norte',
     authors: [{ name: ajustes.nombreSitio || 'Match Point Lima Norte' }],
+    category: 'sports',
     keywords: [
       'tenis lima norte',
-      'academia de tenis lima',
+      'academia de tenis lima norte',
+      'clases de tenis lima norte',
+      'academia de tenis rimac',
       'clases de tenis rimac',
+      'canchas de tenis fuertes hoyos',
+      'clases de tenis los olivos',
+      'clases de tenis independencia',
+      'clases de tenis san martin de porres',
+      'clases de tenis comas',
       'torneos de tenis lima',
       'match point lima norte',
       'tenis principiantes lima',
+      'clases de tenis para niños y adultos lima',
+      'canchas de arcilla lima norte',
     ],
     creator: 'Match Point Lima Norte',
     publisher: 'Match Point Lima Norte',
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
+    ...(googleVerification
+      ? {
+          verification: {
+            google: googleVerification,
+          },
+        }
+      : {}),
     alternates: {
       canonical: '/',
     },
@@ -103,7 +133,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function FrontendLayout({ children }: { children: React.ReactNode }) {
   const { data, preview } = await getSiteData()
-  const { ajustes, niveles, secciones } = data
+  const { ajustes, niveles, secciones, testimonios } = data
 
   const brand = ajustes.colorPrimario || '#0E2F55'
   const accent = ajustes.colorAcento || '#DBDB11'
@@ -116,7 +146,7 @@ export default async function FrontendLayout({ children }: { children: React.Rea
   return (
     <html lang="es-PE" className={`${outfit.variable} ${inter.variable}`} style={customStyles}>
       <head>
-        <JsonLd ajustes={ajustes} niveles={niveles} />
+        <JsonLd ajustes={ajustes} niveles={niveles} testimonios={testimonios} />
       </head>
       <body className="min-h-screen bg-sand text-ink antialiased">
         <a href="#contenido" className="sr-only-focusable bg-accent px-4 py-2 text-brand font-bold z-50">

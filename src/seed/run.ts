@@ -169,9 +169,9 @@ async function seed() {
       logo: mediaMap.logo || undefined,
       icono: mediaMap.icono || undefined,
       ogImagen: mediaMap.og || undefined,
-      seoTitulo: 'Match Point Lima Norte | Academia de Tenis & Torneos',
+      seoTitulo: 'Match Point Lima Norte | Academia y Clases de Tenis en Lima Norte y Rímac',
       seoDescripcion:
-        'Academia de tenis en Lima Norte: clases de iniciación, intermedios y torneos. Reserva tu clase de prueba por WhatsApp.',
+        'Academia de tenis en Lima Norte (Fuertes Hoyos, Rímac). Clases para principiantes, intermedios y torneos en cancha de arcilla. ¡Reserva tu clase de prueba!',
       formularioActivo: true,
       _status: 'published',
     },

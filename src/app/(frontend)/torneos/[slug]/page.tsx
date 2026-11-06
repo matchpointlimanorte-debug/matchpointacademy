@@ -94,31 +94,69 @@ export default async function TorneoDetailPage({ params }: PageProps) {
   const inscripcion = finalizado ? null : inscripcionTorneo(torneo, ajustes)
   const afiche = medio(torneo.afiche)
 
-  // Datos estructurados Schema.org SportsEvent
+  // Datos estructurados Schema.org (SportsEvent + BreadcrumbList)
+  const aficheUrl = afiche ? urlMedio(afiche, 'hero') : null
+  const imagenAbsoluta = aficheUrl
+    ? aficheUrl.startsWith('http')
+      ? aficheUrl
+      : `${SITE_URL}${aficheUrl}`
+    : `${SITE_URL}/og-default.jpg`
+
   const schemaEvent = {
     '@context': 'https://schema.org',
-    '@type': 'SportsEvent',
-    name: torneo.titulo,
-    description: torneo.resumen || undefined,
-    startDate: torneo.fechaInicio || undefined,
-    endDate: torneo.fechaFin || torneo.fechaInicio || undefined,
-    eventStatus: finalizado ? 'https://schema.org/EventCompleted' : 'https://schema.org/EventScheduled',
-    location: {
-      '@type': 'Place',
-      name: torneo.lugar || ajustes.direccion,
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: ajustes.direccion,
-        addressLocality: 'Rímac, Lima',
-        addressCountry: 'PE',
+    '@graph': [
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Inicio',
+            item: SITE_URL,
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'Torneos',
+            item: `${SITE_URL}/torneos`,
+          },
+          {
+            '@type': 'ListItem',
+            position: 3,
+            name: torneo.titulo,
+            item: `${SITE_URL}/torneos/${torneo.slug}`,
+          },
+        ],
       },
-    },
-    organizer: {
-      '@type': 'SportsActivityLocation',
-      name: ajustes.nombreSitio,
-      url: SITE_URL,
-    },
-    image: afiche ? urlMedio(afiche, 'hero') : undefined,
+      {
+        '@type': 'SportsEvent',
+        name: torneo.titulo,
+        description: torneo.resumen || `Torneo de tenis organizado por ${ajustes.nombreSitio || 'Match Point Lima Norte'}.`,
+        startDate: torneo.fechaInicio || undefined,
+        endDate: torneo.fechaFin || torneo.fechaInicio || undefined,
+        eventStatus: finalizado ? 'https://schema.org/EventCompleted' : 'https://schema.org/EventScheduled',
+        eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+        sport: 'Tenis',
+        url: `${SITE_URL}/torneos/${torneo.slug}`,
+        location: {
+          '@type': 'Place',
+          name: torneo.lugar || ajustes.direccion,
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: ajustes.direccion,
+            addressLocality: 'Rímac',
+            addressRegion: 'Lima',
+            addressCountry: 'PE',
+          },
+        },
+        organizer: {
+          '@type': 'SportsActivityLocation',
+          name: ajustes.nombreSitio || 'Match Point Lima Norte',
+          url: SITE_URL,
+        },
+        image: [imagenAbsoluta],
+      },
+    ],
   }
 
   return (

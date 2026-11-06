@@ -72,12 +72,11 @@ export function Hero({ ajustes, secciones }: { ajustes: Ajustes; secciones: Secc
               id="hero-titulo"
               className="anim-in anim-in-2 mt-5 text-4xl font-black leading-[1.08] tracking-tight !text-white sm:text-6xl md:text-7xl"
             >
-              {conResaltado('MatchPoint [[Lima Norte]]')}
+              <span>{conResaltado(ajustes.heroTitular || 'MatchPoint [[Lima Norte]]')}</span>
+              <span className="mt-4 block text-xl font-extrabold text-accent sm:text-2xl drop-shadow-sm tracking-normal">
+                {ajustes.heroEtiqueta || 'Academia de Tenis & Torneos'}
+              </span>
             </h1>
-
-            <p className="anim-in anim-in-2.5 mt-4 text-xl font-extrabold text-accent sm:text-2xl drop-shadow-sm">
-              {ajustes.heroEtiqueta || 'Academia de Tenis & Torneos'}
-            </p>
 
             <p className="anim-in anim-in-3 mt-4 max-w-xl text-base text-white/95 sm:text-lg md:text-xl leading-relaxed">
               {ajustes.heroSubtitulo ||

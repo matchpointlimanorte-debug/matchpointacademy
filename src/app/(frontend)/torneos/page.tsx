@@ -7,11 +7,21 @@ import { separarTorneos } from '@/components/sections/Torneos'
 import { TorneoCard } from '@/components/sections/TorneoCard'
 import { IconArrow, IconTrophy } from '@/components/ui/Icons'
 import { getSiteData } from '@/lib/data'
+import { SITE_URL } from '@/lib/site'
 
 export const metadata: Metadata = {
-  title: 'Torneos y Competencias',
+  title: 'Torneos de Tenis y Competencias en Lima Norte',
   description:
-    'Circuito de torneos de tenis en Match Point Lima Norte. Consulta fechas, categorías, inscripciones y resultados anteriores.',
+    'Circuito de torneos de tenis en Match Point Lima Norte (Fuertes Hoyos, Rímac). Consulta fechas, categorías para principiantes e intermedios, inscripciones y resultados.',
+  alternates: {
+    canonical: '/torneos',
+  },
+  openGraph: {
+    title: 'Torneos de Tenis y Competencias | Match Point Lima Norte',
+    description:
+      'Participa en nuestros torneos de tenis en cancha de arcilla para principiantes, intermedios y avanzados en Lima Norte.',
+    url: `${SITE_URL}/torneos`,
+  },
 }
 
 export default async function TorneosPage() {
@@ -19,8 +29,31 @@ export default async function TorneosPage() {
   const { torneos, ajustes } = data
   const { proximos, pasados } = separarTorneos(torneos)
 
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Inicio',
+        item: SITE_URL,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Torneos',
+        item: `${SITE_URL}/torneos`,
+      },
+    ],
+  }
+
   return (
     <div className="py-12 md:py-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema).replace(/</g, '\\u003c') }}
+      />
       <div className="mx-auto max-w-6xl px-5 md:px-8">
         <nav aria-label="Miga de pan" className="mb-6 flex items-center gap-2 text-sm text-ink/60">
           <Link href="/" className="hover:text-brand">

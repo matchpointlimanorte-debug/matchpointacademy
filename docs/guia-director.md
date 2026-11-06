@@ -139,3 +139,29 @@ Cuando estés editando un Torneo, un Nivel o la Configuración, verás un botón
 1. **Atención rápida en WhatsApp**: Los botones de la web llevan directo a tu chat con el mensaje listo. Responder en los primeros 10 minutos duplica la probabilidad de que la persona asista a su clase de prueba.
 2. **Fotos reales de alumnos**: Las fotos reales en la cancha de Fuertes Hoyos generan muchísima más confianza que fotos genéricas de internet. Mantén la galería actualizada con fotos de los entrenamientos de los sábados y domingos.
 3. **Mantén los horarios al día**: Si cambias la hora de un nivel, actualízala de inmediato en el panel para evitar confusiones con personas que llegan por primera vez.
+
+---
+
+## 10. Cómo aparecer en Google y posicionar en primeros lugares (SEO)
+
+Tu página web ya genera automáticamente su mapa del sitio (`/sitemap.xml`), archivo de rastreo (`/robots.txt`) y datos estructurados para Google (ubicación, horarios, niveles, preguntas frecuentes, reseñas y torneos). Para que Google la indexe rápido y aparezca primera cuando alguien busque *"clases de tenis en Lima Norte"* o *"academia de tenis Rímac"*, sigue estos pasos:
+
+### Paso 1: Registrar la web en Google Search Console (1 sola vez)
+1. Ingresa a **[Google Search Console](https://search.google.com/search-console)** con el correo de Gmail de la academia.
+2. En **"Prefijo de la URL"**, escribe `https://matchpointlimanorte.com` y continúa.
+3. Verifica la propiedad (por DNS en tu proveedor de dominio o copiando el código de etiqueta HTML en la variable `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` de tu servidor).
+4. En el menú izquierdo, entra a **Sitemaps**, escribe `sitemap.xml` y presiona **Enviar**.
+5. En la barra superior (**Inspeccionar cualquier URL**), escribe `https://matchpointlimanorte.com` y haz clic en **"Solicitar indexación"**. Haz lo mismo con `https://matchpointlimanorte.com/torneos`.
+
+### Paso 2: Crear o enlazar tu ficha en Google Maps (Google Business Profile)
+1. Entra a **[Google Business Profile](https://www.google.com/business/)** y registra **Match Point Lima Norte** con la ubicación en Fuertes Hoyos, Rímac.
+2. Coloca como sitio web oficial `https://matchpointlimanorte.com`.
+3. Sube fotos reales de las canchas de arcilla y de las clases.
+4. Pide a tus alumnos que dejen una reseña de 5 estrellas en Google Maps mencionando frases como *"clases de tenis en Lima Norte"* o *"entrenamiento en Rímac"*.
+
+### Paso 3: Enlazar la web en todas las redes sociales
+- Coloca el enlace `https://matchpointlimanorte.com` en la biografía de **Instagram**, **TikTok**, **Facebook** y en el perfil de empresa de **WhatsApp Business**.
+
+### Paso 4: Editar el título y descripción de Google desde el Panel
+- En el panel (`/admin` → **Configuración del sitio** → pestaña **SEO y redes**), puedes personalizar el **Título para Google** y la **Descripción para Google** cuando quieras destacar promociones o inicios de temporada.
+
